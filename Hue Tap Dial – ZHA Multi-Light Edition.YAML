@@ -1,0 +1,756 @@
+blueprint:
+  name: Hue Tap Dial – ZHA Multi-Light Edition
+  description: >
+    Control up to 4 LED lights with your Hue Tap Dial. Each button can be configured 
+    as either Light Mode (hue/brightness control) or Button Mode (custom actions).
+    The dial controls whichever light was last activated.
+  domain: automation
+  input:
+    controller_device:
+      name: Hue Tap Dial
+      description: Select your Philips Hue Tap Dial switch
+      selector:
+        device:
+          integration: zha
+          model: RDM002
+    
+    mode_helper:
+      name: Hue Dial Mode
+      description: Shared dropdown helper to track hue/brightness mode
+      selector:
+        entity:
+          domain: input_select
+    
+    button_1_hue_helper:
+      name: Hue Dial Button 1 Helper
+      description: Number helper to store Button 1's hue value
+      selector:
+        entity:
+          domain: input_number
+    
+    button_2_hue_helper:
+      name: Hue Dial Button 2 Helper
+      description: Number helper to store Button 2's hue value
+      selector:
+        entity:
+          domain: input_number
+    
+    button_3_hue_helper:
+      name: Hue Dial Button 3 Helper
+      description: Number helper to store Button 3's hue value
+      selector:
+        entity:
+          domain: input_number
+    
+    button_4_hue_helper:
+      name: Hue Dial Button 4 Helper
+      description: Number helper to store Button 4's hue value
+      selector:
+        entity:
+          domain: input_number
+    
+    hue_sensitivity:
+      name: Hue Sensitivity
+      description: Rotation speed for color changes
+      default: 2.0
+      selector:
+        number:
+          min: 1.0
+          max: 5.0
+          step: 0.1
+          mode: slider
+    
+    brightness_sensitivity:
+      name: Brightness Sensitivity
+      description: Rotation speed for brightness changes
+      default: 2.0
+      selector:
+        number:
+          min: 1.0
+          max: 5.0
+          step: 0.1
+          mode: slider
+    
+    # Button 1 Configuration
+    button_1_mode:
+      name: Button 1 Mode
+      description: Choose how Button 1 operates
+      default: light
+      selector:
+        select:
+          options:
+            - label: Light Mode (Control LED)
+              value: light
+            - label: Button Mode (Custom Actions)
+              value: button
+    
+    button_1_light:
+      name: Button 1 - LED Light
+      description: Light to control (only used in Light Mode)
+      default: {}
+      selector:
+        entity:
+          domain: light
+    
+    button_1_single_press:
+      name: Button 1 - Single Press Action
+      description: Only used in Button Mode
+      default: []
+      selector:
+        action: {}
+    
+    button_1_double_press:
+      name: Button 1 - Double Press Action
+      description: Only used in Button Mode
+      default: []
+      selector:
+        action: {}
+    
+    button_1_long_press:
+      name: Button 1 - Long Press Action
+      description: Only used in Button Mode
+      default: []
+      selector:
+        action: {}
+    
+    button_1_triple_press:
+      name: Button 1 - Triple Press Action
+      description: Available in both modes
+      default: []
+      selector:
+        action: {}
+    
+    button_1_quadruple_press:
+      name: Button 1 - Quadruple Press Action
+      description: Available in both modes
+      default: []
+      selector:
+        action: {}
+    
+    button_1_quintuple_press:
+      name: Button 1 - Quintuple Press Action
+      description: Available in both modes
+      default: []
+      selector:
+        action: {}
+    
+    # Button 2 Configuration
+    button_2_mode:
+      name: Button 2 Mode
+      description: Choose how Button 2 (Upper Right) operates
+      default: button
+      selector:
+        select:
+          options:
+            - label: Light Mode (Control LED)
+              value: light
+            - label: Button Mode (Custom Actions)
+              value: button
+    
+    button_2_light:
+      name: Button 2 - LED Light
+      description: Light to control (only used in Light Mode)
+      default: {}
+      selector:
+        entity:
+          domain: light
+    
+    button_2_single_press:
+      name: Button 2 - Single Press Action
+      description: Only used in Button Mode
+      default: []
+      selector:
+        action: {}
+    
+    button_2_double_press:
+      name: Button 2 - Double Press Action
+      description: Only used in Button Mode
+      default: []
+      selector:
+        action: {}
+    
+    button_2_long_press:
+      name: Button 2 - Long Press Action
+      description: Only used in Button Mode
+      default: []
+      selector:
+        action: {}
+    
+    button_2_triple_press:
+      name: Button 2 - Triple Press Action
+      description: Available in both modes
+      default: []
+      selector:
+        action: {}
+    
+    button_2_quadruple_press:
+      name: Button 2 - Quadruple Press Action
+      description: Available in both modes
+      default: []
+      selector:
+        action: {}
+    
+    button_2_quintuple_press:
+      name: Button 2 - Quintuple Press Action
+      description: Available in both modes
+      default: []
+      selector:
+        action: {}
+    
+    # Button 3 Configuration
+    button_3_mode:
+      name: Button 3 Mode
+      description: Choose how Button 3 (Lower Left) operates
+      default: button
+      selector:
+        select:
+          options:
+            - label: Light Mode (Control LED)
+              value: light
+            - label: Button Mode (Custom Actions)
+              value: button
+    
+    button_3_light:
+      name: Button 3 - LED Light
+      description: Light to control (only used in Light Mode)
+      default: {}
+      selector:
+        entity:
+          domain: light
+    
+    button_3_single_press:
+      name: Button 3 - Single Press Action
+      description: Only used in Button Mode
+      default: []
+      selector:
+        action: {}
+    
+    button_3_double_press:
+      name: Button 3 - Double Press Action
+      description: Only used in Button Mode
+      default: []
+      selector:
+        action: {}
+    
+    button_3_long_press:
+      name: Button 3 - Long Press Action
+      description: Only used in Button Mode
+      default: []
+      selector:
+        action: {}
+    
+    button_3_triple_press:
+      name: Button 3 - Triple Press Action
+      description: Available in both modes
+      default: []
+      selector:
+        action: {}
+    
+    button_3_quadruple_press:
+      name: Button 3 - Quadruple Press Action
+      description: Available in both modes
+      default: []
+      selector:
+        action: {}
+    
+    button_3_quintuple_press:
+      name: Button 3 - Quintuple Press Action
+      description: Available in both modes
+      default: []
+      selector:
+        action: {}
+    
+    # Button 4 Configuration
+    button_4_mode:
+      name: Button 4 Mode
+      description: Choose how Button 4 (Lower Right) operates
+      default: button
+      selector:
+        select:
+          options:
+            - label: Light Mode (Control LED)
+              value: light
+            - label: Button Mode (Custom Actions)
+              value: button
+    
+    button_4_light:
+      name: Button 4 - LED Light
+      description: Light to control (only used in Light Mode)
+      default: {}
+      selector:
+        entity:
+          domain: light
+    
+    button_4_single_press:
+      name: Button 4 - Single Press Action
+      description: Only used in Button Mode
+      default: []
+      selector:
+        action: {}
+    
+    button_4_double_press:
+      name: Button 4 - Double Press Action
+      description: Only used in Button Mode
+      default: []
+      selector:
+        action: {}
+    
+    button_4_long_press:
+      name: Button 4 - Long Press Action
+      description: Only used in Button Mode
+      default: []
+      selector:
+        action: {}
+    
+    button_4_triple_press:
+      name: Button 4 - Triple Press Action
+      description: Available in both modes
+      default: []
+      selector:
+        action: {}
+    
+    button_4_quadruple_press:
+      name: Button 4 - Quadruple Press Action
+      description: Available in both modes
+      default: []
+      selector:
+        action: {}
+    
+    button_4_quintuple_press:
+      name: Button 4 - Quintuple Press Action
+      description: Available in both modes
+      default: []
+      selector:
+        action: {}
+
+mode: queued
+max: 10
+
+trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_id: !input controller_device
+
+variables:
+  command: "{{ trigger.event.data.command }}"
+  cluster_id: "{{ trigger.event.data.cluster_id | int }}"
+  endpoint_id: "{{ trigger.event.data.endpoint_id | int }}"
+  
+  # Shared mode helper
+  mode_entity: !input mode_helper
+  
+  # Individual hue helpers for each button
+  btn1_hue_entity: !input button_1_hue_helper
+  btn2_hue_entity: !input button_2_hue_helper
+  btn3_hue_entity: !input button_3_hue_helper
+  btn4_hue_entity: !input button_4_hue_helper
+  
+  # Button modes
+  btn1_mode: !input button_1_mode
+  btn2_mode: !input button_2_mode
+  btn3_mode: !input button_3_mode
+  btn4_mode: !input button_4_mode
+  
+  # Light entities
+  btn1_light: !input button_1_light
+  btn2_light: !input button_2_light
+  btn3_light: !input button_3_light
+  btn4_light: !input button_4_light
+  
+  # Sensitivity
+  sens_hue: !input hue_sensitivity
+  sens_bri: !input brightness_sensitivity
+
+action:
+  - choose:
+      # ROTATION LOGIC (Cluster 8) - Controls the active button's light
+      - conditions: "{{ cluster_id == 8 and command in ['step', 'step_with_on_off'] }}"
+        sequence:
+          - variables:
+              step_mode: "{{ trigger.event.data.params.step_mode | default(0) }}"
+              step_size: "{{ trigger.event.data.params.step_size | default(10) }}"
+              # Direction: StepMode.Up (0) = clockwise, StepMode.Down (1) = counter-clockwise
+              direction_multiplier: "{{ 1 if step_mode in [0, 'StepMode.Up'] else -1 }}"
+              
+              # Determine which button/light is active based on endpoint
+              active_mode: >
+                {% if endpoint_id == 1 %}{{ btn1_mode }}
+                {% elif endpoint_id == 2 %}{{ btn2_mode }}
+                {% elif endpoint_id == 3 %}{{ btn3_mode }}
+                {% elif endpoint_id == 4 %}{{ btn4_mode }}
+                {% else %}button{% endif %}
+              active_light: >
+                {% if endpoint_id == 1 %}{{ btn1_light }}
+                {% elif endpoint_id == 2 %}{{ btn2_light }}
+                {% elif endpoint_id == 3 %}{{ btn3_light }}
+                {% elif endpoint_id == 4 %}{{ btn4_light }}
+                {% else %}{% endif %}
+              active_hue_entity: >
+                {% if endpoint_id == 1 %}{{ btn1_hue_entity }}
+                {% elif endpoint_id == 2 %}{{ btn2_hue_entity }}
+                {% elif endpoint_id == 3 %}{{ btn3_hue_entity }}
+                {% elif endpoint_id == 4 %}{{ btn4_hue_entity }}
+                {% else %}{% endif %}
+          
+          - choose:
+              # Only process rotation if button is in light mode
+              - conditions: "{{ active_mode == 'light' and active_light != '' }}"
+                sequence:
+                  - choose:
+                      # Hue Mode
+                      - conditions: "{{ states(mode_entity)|lower|trim == 'hue' }}"
+                        sequence:
+                          - service: input_number.set_value
+                            data:
+                              entity_id: "{{ active_hue_entity }}"
+                              value: >
+                                {% set current = states(active_hue_entity) | float(0) %}
+                                {% set delta = (step_size | float / 10.0) * sens_hue * direction_multiplier %}
+                                {{ ((current + delta) % 360) | round(0) }}
+                          - service: light.turn_on
+                            target:
+                              entity_id: "{{ active_light }}"
+                            data:
+                              hs_color: ["{{ states(active_hue_entity) | int }}", 100]
+                              transition: 0
+                      
+                      # Brightness Mode
+                      - conditions: "{{ states(mode_entity)|lower|trim == 'brightness' }}"
+                        sequence:
+                          - service: light.turn_on
+                            target:
+                              entity_id: "{{ active_light }}"
+                            data:
+                              brightness: >
+                                {% set current = state_attr(active_light, 'brightness') | int(128) %}
+                                {% set direction = 1 if step_mode in [0, 'StepMode.Up'] else -1 %}
+                                {% set delta = ((step_size | int) / 5.0) * (sens_bri | float) * direction %}
+                                {% set val = current + delta %}
+                                {{ 5 if val < 5 else (255 if val > 255 else (val | int)) }}
+                              transition: 0
+      
+      # BUTTON 1 EVENTS (Endpoint 1, Cluster 64512)
+      - conditions: "{{ endpoint_id == 1 and cluster_id == 64512 }}"
+        sequence:
+          - choose:
+              # Light Mode Handling
+              - conditions: "{{ btn1_mode == 'light' and btn1_light != '' }}"
+                sequence:
+                  - choose:
+                      # Single Press - Turn on + Hue mode
+                      - conditions: "{{ command in ['button_1_press', 'button_1_short_release'] }}"
+                        sequence:
+                          - service: input_select.select_option
+                            data:
+                              entity_id: "{{ mode_entity }}"
+                              option: hue
+                          - service: light.turn_on
+                            target:
+                              entity_id: "{{ btn1_light }}"
+                          - delay:
+                              milliseconds: 100
+                          - service: light.turn_off
+                            target:
+                              entity_id: "{{ btn1_light }}"
+                          - delay:
+                              milliseconds: 100
+                          - service: light.turn_on
+                            target:
+                              entity_id: "{{ btn1_light }}"
+                      
+                      # Double Press - Brightness mode
+                      - conditions: "{{ command == 'button_1_double_press' }}"
+                        sequence:
+                          - service: input_select.select_option
+                            data:
+                              entity_id: "{{ mode_entity }}"
+                              option: brightness
+                          - service: light.turn_on
+                            target:
+                              entity_id: "{{ btn1_light }}"
+                          - delay:
+                              milliseconds: 100
+                          - service: light.turn_off
+                            target:
+                              entity_id: "{{ btn1_light }}"
+                          - delay:
+                              milliseconds: 100
+                          - service: light.turn_on
+                            target:
+                              entity_id: "{{ btn1_light }}"
+                          - delay:
+                              milliseconds: 100
+                          - service: light.turn_off
+                            target:
+                              entity_id: "{{ btn1_light }}"
+                          - delay:
+                              milliseconds: 100
+                          - service: light.turn_on
+                            target:
+                              entity_id: "{{ btn1_light }}"
+                      
+                      # Long Press - Turn off
+                      - conditions: "{{ command in ['button_1_hold', 'button_1_long_release'] }}"
+                        sequence:
+                          - service: light.turn_off
+                            target:
+                              entity_id: "{{ btn1_light }}"
+                      
+                      # Triple Press
+                      - conditions: "{{ command == 'button_1_triple_press' }}"
+                        sequence: !input button_1_triple_press
+                      
+                      # Quadruple Press
+                      - conditions: "{{ command == 'button_1_quadruple_press' }}"
+                        sequence: !input button_1_quadruple_press
+                      
+                      # Quintuple Press
+                      - conditions: "{{ command == 'button_1_quintuple_press' }}"
+                        sequence: !input button_1_quintuple_press
+              
+              # Button Mode Handling
+              - conditions: "{{ btn1_mode == 'button' }}"
+                sequence:
+                  - choose:
+                      - conditions: "{{ command in ['button_1_press', 'button_1_short_release'] }}"
+                        sequence: !input button_1_single_press
+                      - conditions: "{{ command == 'button_1_double_press' }}"
+                        sequence: !input button_1_double_press
+                      - conditions: "{{ command in ['button_1_hold', 'button_1_long_release'] }}"
+                        sequence: !input button_1_long_press
+                      - conditions: "{{ command == 'button_1_triple_press' }}"
+                        sequence: !input button_1_triple_press
+                      - conditions: "{{ command == 'button_1_quadruple_press' }}"
+                        sequence: !input button_1_quadruple_press
+                      - conditions: "{{ command == 'button_1_quintuple_press' }}"
+                        sequence: !input button_1_quintuple_press
+      
+      # BUTTON 2 EVENTS (Endpoint 2, Cluster 64512)
+      - conditions: "{{ endpoint_id == 2 and cluster_id == 64512 }}"
+        sequence:
+          - choose:
+              # Light Mode Handling
+              - conditions: "{{ btn2_mode == 'light' and btn2_light != '' }}"
+                sequence:
+                  - choose:
+                      - conditions: "{{ command in ['button_2_press', 'button_2_short_release'] }}"
+                        sequence:
+                          - service: input_select.select_option
+                            data:
+                              entity_id: "{{ mode_entity }}"
+                              option: hue
+                          - service: light.turn_on
+                            target:
+                              entity_id: "{{ btn2_light }}"
+                          - delay:
+                              milliseconds: 100
+                          - service: light.turn_off
+                            target:
+                              entity_id: "{{ btn2_light }}"
+                          - delay:
+                              milliseconds: 100
+                          - service: light.turn_on
+                            target:
+                              entity_id: "{{ btn2_light }}"
+                      - conditions: "{{ command == 'button_2_double_press' }}"
+                        sequence:
+                          - service: input_select.select_option
+                            data:
+                              entity_id: "{{ mode_entity }}"
+                              option: brightness
+                          - service: light.turn_on
+                            target:
+                              entity_id: "{{ btn2_light }}"
+                          - delay:
+                              milliseconds: 100
+                          - service: light.turn_off
+                            target:
+                              entity_id: "{{ btn2_light }}"
+                          - delay:
+                              milliseconds: 100
+                          - service: light.turn_on
+                            target:
+                              entity_id: "{{ btn2_light }}"
+                          - delay:
+                              milliseconds: 100
+                          - service: light.turn_off
+                            target:
+                              entity_id: "{{ btn2_light }}"
+                          - delay:
+                              milliseconds: 100
+                          - service: light.turn_on
+                            target:
+                              entity_id: "{{ btn2_light }}"
+                      - conditions: "{{ command in ['button_2_hold', 'button_2_long_release'] }}"
+                        sequence:
+                          - service: light.turn_off
+                            target:
+                              entity_id: "{{ btn2_light }}"
+                      - conditions: "{{ command == 'button_2_triple_press' }}"
+                        sequence: !input button_2_triple_press
+                      - conditions: "{{ command == 'button_2_quadruple_press' }}"
+                        sequence: !input button_2_quadruple_press
+                      - conditions: "{{ command == 'button_2_quintuple_press' }}"
+                        sequence: !input button_2_quintuple_press
+              
+              # Button Mode Handling
+              - conditions: "{{ btn2_mode == 'button' }}"
+                sequence:
+                  - choose:
+                      - conditions: "{{ command in ['button_2_press', 'button_2_short_release'] }}"
+                        sequence: !input button_2_single_press
+                      - conditions: "{{ command == 'button_2_double_press' }}"
+                        sequence: !input button_2_double_press
+                      - conditions: "{{ command in ['button_2_hold', 'button_2_long_release'] }}"
+                        sequence: !input button_2_long_press
+                      - conditions: "{{ command == 'button_2_triple_press' }}"
+                        sequence: !input button_2_triple_press
+                      - conditions: "{{ command == 'button_2_quadruple_press' }}"
+                        sequence: !input button_2_quadruple_press
+                      - conditions: "{{ command == 'button_2_quintuple_press' }}"
+                        sequence: !input button_2_quintuple_press
+      
+      # BUTTON 3 EVENTS (Endpoint 3, Cluster 64512)
+      - conditions: "{{ endpoint_id == 3 and cluster_id == 64512 }}"
+        sequence:
+          - choose:
+              # Light Mode Handling
+              - conditions: "{{ btn3_mode == 'light' and btn3_light != '' }}"
+                sequence:
+                  - choose:
+                      - conditions: "{{ command in ['button_3_press', 'button_3_short_release'] }}"
+                        sequence:
+                          - service: input_select.select_option
+                            data:
+                              entity_id: "{{ mode_entity }}"
+                              option: hue
+                          - service: light.turn_on
+                            target:
+                              entity_id: "{{ btn3_light }}"
+                          - delay:
+                              milliseconds: 100
+                          - service: light.turn_off
+                            target:
+                              entity_id: "{{ btn3_light }}"
+                          - delay:
+                              milliseconds: 100
+                          - service: light.turn_on
+                            target:
+                              entity_id: "{{ btn3_light }}"
+                      - conditions: "{{ command == 'button_3_double_press' }}"
+                        sequence:
+                          - service: input_select.select_option
+                            data:
+                              entity_id: "{{ mode_entity }}"
+                              option: brightness
+                          - service: light.turn_on
+                            target:
+                              entity_id: "{{ btn3_light }}"
+                          - delay:
+                              milliseconds: 100
+                          - service: light.turn_off
+                            target:
+                              entity_id: "{{ btn3_light }}"
+                          - delay:
+                              milliseconds: 100
+                          - service: light.turn_on
+                            target:
+                              entity_id: "{{ btn3_light }}"
+                          - delay:
+                              milliseconds: 100
+                          - service: light.turn_off
+                            target:
+                              entity_id: "{{ btn3_light }}"
+                          - delay:
+                              milliseconds: 100
+                          - service: light.turn_on
+                            target:
+                              entity_id: "{{ btn3_light }}"
+                      - conditions: "{{ command in ['button_3_hold', 'button_3_long_release'] }}"
+                        sequence:
+                          - service: light.turn_off
+                            target:
+                              entity_id: "{{ btn3_light }}"
+                      - conditions: "{{ command == 'button_3_triple_press' }}"
+                        sequence: !input button_3_triple_press
+                      - conditions: "{{ command == 'button_3_quadruple_press' }}"
+                        sequence: !input button_3_quadruple_press
+                      - conditions: "{{ command == 'button_3_quintuple_press' }}"
+                        sequence: !input button_3_quintuple_press
+              
+              # Button Mode Handling
+              - conditions: "{{ btn3_mode == 'button' }}"
+                sequence:
+                  - choose:
+                      - conditions: "{{ command in ['button_3_press', 'button_3_short_release'] }}"
+                        sequence: !input button_3_single_press
+                      - conditions: "{{ command == 'button_3_double_press' }}"
+                        sequence: !input button_3_double_press
+                      - conditions: "{{ command in ['button_3_hold', 'button_3_long_release'] }}"
+                        sequence: !input button_3_long_press
+                      - conditions: "{{ command == 'button_3_triple_press' }}"
+                        sequence: !input button_3_triple_press
+                      - conditions: "{{ command == 'button_3_quadruple_press' }}"
+                        sequence: !input button_3_quadruple_press
+                      - conditions: "{{ command == 'button_3_quintuple_press' }}"
+                        sequence: !input button_3_quintuple_press
+      
+      # BUTTON 4 EVENTS (Endpoint 4, Cluster 64512)
+      - conditions: "{{ endpoint_id == 4 and cluster_id == 64512 }}"
+        sequence:
+          - choose:
+              # Light Mode Handling
+              - conditions: "{{ btn4_mode == 'light' and btn4_light != '' }}"
+                sequence:
+                  - choose:
+                      - conditions: "{{ command in ['button_4_press', 'button_4_short_release'] }}"
+                        sequence:
+                          - service: light.turn_on
+                            target:
+                              entity_id: "{{ btn4_light }}"
+                            data:
+                              effect: "blink"
+                          - service: input_select.select_option
+                            data:
+                              entity_id: "{{ mode_entity }}"
+                              option: hue
+                      - conditions: "{{ command == 'button_4_double_press' }}"
+                        sequence:
+                          - service: input_select.select_option
+                            data:
+                              entity_id: "{{ mode_entity }}"
+                              option: brightness
+                          - service: light.turn_on
+                            target:
+                              entity_id: "{{ btn4_light }}"
+                            data:
+                              effect: "blink"
+                      - conditions: "{{ command in ['button_4_hold', 'button_4_long_release'] }}"
+                        sequence:
+                          - service: light.turn_off
+                            target:
+                              entity_id: "{{ btn4_light }}"
+                      - conditions: "{{ command == 'button_4_triple_press' }}"
+                        sequence: !input button_4_triple_press
+                      - conditions: "{{ command == 'button_4_quadruple_press' }}"
+                        sequence: !input button_4_quadruple_press
+                      - conditions: "{{ command == 'button_4_quintuple_press' }}"
+                        sequence: !input button_4_quintuple_press
+              
+              # Button Mode Handling
+              - conditions: "{{ btn4_mode == 'button' }}"
+                sequence:
+                  - choose:
+                      - conditions: "{{ command in ['button_4_press', 'button_4_short_release'] }}"
+                        sequence: !input button_4_single_press
+                      - conditions: "{{ command == 'button_4_double_press' }}"
+                        sequence: !input button_4_double_press
+                      - conditions: "{{ command in ['button_4_hold', 'button_4_long_release'] }}"
+                        sequence: !input button_4_long_press
+                      - conditions: "{{ command == 'button_4_triple_press' }}"
+                        sequence: !input button_4_triple_press
+                      - conditions: "{{ command == 'button_4_quadruple_press' }}"
+                        sequence: !input button_4_quadruple_press
+                      - conditions: "{{ command == 'button_4_quintuple_press' }}"
+                        sequence: !input button_4_quintuple_press
