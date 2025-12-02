@@ -1,3 +1,5 @@
+After struggling with this concept for a few days trying to troubleshoot why my LEDs were dimming regardless of whether I turned my Hue dial CW or CCW, I gave up and turned to Claude.  Claude basically rewrote the entire blueprint, found a bunch of optimizations, and generated almost all of this readme document.  This is my first commit on Github and I probably won't be updating it.  Feel free to fork it yourself or attach it to Claude and make it your own.  Maybe in the future I'll add the ability to toggle between hue and color temperature.
+
 # Hue Tap Dial – ZHA Multi-Light Edition
 
 A comprehensive Home Assistant blueprint that allows you to control up to 4 LED lights with a single Philips Hue Tap Dial switch. Each button can be configured independently for either light control (hue/brightness) or custom automation actions.
@@ -67,13 +69,6 @@ You must create 5 helper entities before using this blueprint:
 
 ### Step 1: Import the Blueprint
 
-1. Click this button to import directly into Home Assistant:
-   
-   [![Open your Home Assistant instance and show the blueprint import dialog with a specific blueprint pre-filled.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2Fx4dm%2FHue-Tap-Dial-ZHA-Multi-Light-Edition%2Fblob%2Fmain%2FHue%2520Tap%2520Dial%2520%25E2%2580%2593%2520ZHA%2520Multi-Light%2520Edition)
-
-   **OR**
-
-2. Manual import:
    - Go to **Settings → Automations & Scenes → Blueprints**
    - Click **Import Blueprint** (bottom right)
    - Paste this URL:
@@ -91,7 +86,7 @@ Before creating your automation, you must create 5 helper entities. These store 
 1. Go to **Settings → Devices & Services → Helpers**
 2. Click **Create Helper** → **Dropdown**
 3. Configure:
-   - **Name**: `Hue Dial Mode`
+   - **Name**: `Hue Dial Mode` (Or something similar)
    - **Options**: Add these two options (one per line):
      ```
      hue
@@ -177,16 +172,12 @@ When a button is set to Button Mode:
 Both sensitivity settings use the same scale: **1.0 to 5.0** in 0.1 increments.
 
 **Hue Sensitivity** (Color Changes):
-- **1.0-1.5**: Very slow, precise color adjustments (best for fine-tuning specific colors)
-- **2.0**: Default, balanced speed for most users
-- **3.0-4.0**: Faster color cycling for quick changes
-- **4.5-5.0**: Very fast, useful for rapid color selection
+- 1 is very slow/precise
+- 5 makes it easy to find a color, but you might not get the exact color you're looking for if you're super picky
 
 **Brightness Sensitivity**:
-- **1.0-1.5**: Very slow, granular brightness control (1-2% per rotation step)
-- **2.0**: Default, balanced speed for most users
-- **3.0-4.0**: Faster brightness changes for quick adjustments
-- **4.5-5.0**: Very fast, large brightness jumps per rotation
+- 1 is very slow/precise
+- 5 makes it easy to turn up/down quickly, but most LEDs have poor brightness linearity below ~10, so if you're trying to get an exact brightness of 2 or 3, you won't get that here.
 
 **Tips**:
 - Start with default (2.0) for both and adjust based on preference
@@ -266,13 +257,14 @@ In **Button Mode**, all six press types are available for custom actions.
 - Check that ZHA integration is installed and working
 - Try re-importing with the raw GitHub URL
 - Check Home Assistant logs for specific error messages
+- If all else fails, copy the YAML blueprint to your \config\blueprints\automation path
 
 ### Issue: Dial rotation doesn't work
 
 **Checklist**:
 1. Is the button configured in Light Mode? (Dial only works in Light Mode)
 2. Did you select a light for that button?
-3. Did you create all 5 helper entities with the exact names specified?
+3. Did you create all 5 helper entities and map them when importing the blueprint?
 4. Is the light on? The dial only affects lights that are already on
 5. Did you press the button first to activate that light?
 
@@ -281,20 +273,13 @@ In **Button Mode**, all six press types are available for custom actions.
 - Verify light supports color: Check light attributes in Developer Tools → States
 - Test helper manually: Try changing `input_select.hue_dial_mode` and see if dial behavior changes
 
-### Issue: Wrong direction (clockwise dims instead of brightens)
-
-**This should not happen with this blueprint**. If you experience this:
-- Re-import the latest version from GitHub
-- Check that you're using the correct blueprint (not an older version)
-- Enable automation traces to verify step_mode values
-
 ### Issue: Colors don't match between lights
 
 **Explanation**: Different LED manufacturers interpret hue values slightly differently. A hue of 120° might appear lime green on one strip and forest green on another.
 
 **Solution**: This is normal behavior. Adjust each light individually to your preferred color.
 
-### Issue: Lights don't blink when selecting them
+### Issue: Lights don't blink when selecting them or blink too many times
 
 **Possible causes**:
 1. **Light doesn't support on/off commands quickly**: Some Zigbee lights have minimum on-times
@@ -318,7 +303,7 @@ In **Button Mode**, all six press types are available for custom actions.
 1. **Add Zigbee routers**: Place mains-powered Zigbee devices between the dial and coordinator
 2. **Check system resources**: High CPU/RAM usage can slow automation processing
 3. **Reduce other automations**: Temporarily disable other automations to test
-4. **Lower sensitivity**: Try reducing both sensitivities to 1.5-1.8 for smaller steps
+4. **Lower sensitivity**: Try reducing both sensitivities for smaller steps
 5. **Check Zigbee signal strength**: Settings → Devices & Services → ZHA → [Your Dial] → Check "LQI" value
 
 ### Issue: Helper entities not found
@@ -404,7 +389,7 @@ The Hue Tap Dial sends two types of events:
 
 1. **Dial controls one light at a time**: You must press a button to select which light the dial adjusts
 2. **Hue saturation fixed at 100%**: All colors are fully saturated (vivid). Cannot create pastel colors
-3. **ZHA only**: This blueprint requires the ZHA integration. Not compatible with Zigbee2MQTT
+3. **ZHA only**: This blueprint requires the ZHA integration. Not compatible with Zigbee2MQTT.  I don't use Z2M, so just take my blueprint and ask Claude to generate something similar for you.
 4. **No light groups**: Each button controls a single light entity. To control multiple lights together, create a light group entity first
 5. **Zigbee lights only**: Wi-Fi based lights won't work as they don't communicate via Zigbee
 6. **Button Mode disables dial**: When a button is in Button Mode, rotating the dial has no effect
@@ -416,7 +401,7 @@ The Hue Tap Dial sends two types of events:
 ## Frequently Asked Questions
 
 **Q: Can I use this with Zigbee2MQTT instead of ZHA?**  
-A: No, this blueprint is specifically designed for ZHA. Zigbee2MQTT uses different event structures.
+A: No, this blueprint is specifically designed for ZHA. Zigbee2MQTT uses different event structures.  I don't use Z2M, so just take my blueprint and ask Claude to generate something similar for you.
 
 **Q: Can one button control multiple lights?**  
 A: Not directly. Create a light group entity first (Settings → Devices & Services → Helpers → Group → Light Group), then assign that group to the button.
@@ -434,13 +419,13 @@ A: The custom actions you configured for that press type will execute. The dial 
 A: No, this blueprint only controls RGB hue. Color temperature control would require a different approach and light attributes.
 
 **Q: Does this work with light effects like "colorloop"?**  
-A: The blueprint itself doesn't trigger effects, but you can configure custom actions (triple/quadruple/quintuple press) to activate light effects.
+A: I don't even know what colorloop is, but Claude really wanted me to add this.  This blueprint itself doesn't trigger effects, but you can configure custom actions (triple/quadruple/quintuple press) to activate light effects or scenes.
 
 **Q: Can I add more than 4 lights?**  
-A: No, the Hue Tap Dial only has 4 buttons. To control more lights, use light groups or custom actions that toggle between different lights.
+A: No, the Hue Tap Dial only has 4 buttons. To control more lights, use light groups or custom actions that toggle between different lights.  Or just buy another Hue Dial switch
 
 **Q: Why does the dial sometimes feel laggy?**  
-A: This is usually caused by Zigbee mesh issues or Home Assistant CPU load. See the "Lag when rotating dial" troubleshooting section.
+A: This is usually caused by Zigbee mesh issues or Home Assistant CPU load. See the "Lag when rotating dial" troubleshooting section.  I was hoping to directly bind the Hue Dial switch to the zigbee lights directly, but doing so won't enable color changing using the dial.
 
 **Q: Can I reset a light's stored hue value?**  
 A: Yes. Go to Settings → Devices & Services → Helpers, find the button's helper (e.g., `Hue Dial Button 1 Helper`), and set it to your desired starting value (or 0 to reset to red).
