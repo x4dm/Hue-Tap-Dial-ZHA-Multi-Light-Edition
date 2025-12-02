@@ -1,5 +1,7 @@
 After struggling with this concept for a few days trying to troubleshoot why my LEDs were dimming regardless of whether I turned my Hue dial CW or CCW, I gave up and turned to Claude.  Claude basically rewrote the entire blueprint, found a bunch of optimizations, and generated almost all of this readme document.  This is my first commit on Github and I probably won't be updating it.  Feel free to fork it yourself or attach it to Claude and make it your own.  Maybe in the future I'll add the ability to toggle between hue and color temperature.
 
+Also, I don't have any other Hue products, so I have no idea how smooth the native hue interface is.  I'm guessing this blueprint is worse.
+
 # Hue Tap Dial – ZHA Multi-Light Edition
 
 A comprehensive Home Assistant blueprint that allows you to control up to 4 LED lights with a single Philips Hue Tap Dial switch. Each button can be configured independently for either light control (hue/brightness) or custom automation actions.
@@ -47,18 +49,18 @@ Adjust how fast the dial responds:
 ## Requirements
 
 ### Hardware
-- **Philips Hue Tap Dial Switch** (Model: RDM002)
+- **Philips Hue Tap Dial Switch paired directly to ZHA** (Model: RDM002)
 - **Zigbee LED Light Strips** (must support RGB color and brightness control)
 - **Zigbee Coordinator** (USB dongle or built-in)
-- **Recommended**: Zigbee router/repeater for improved reliability
+- **Recommended**: Zigbee router/repeater for improved reliability - The color changer can get really laggy unless you have a mains powered repeater nearby.  I use third reality Zigbee switches since they're cheap and useful, but any repeater will work
 
 ### Software
 - **Home Assistant** (2023.1 or newer recommended)
 - **ZHA (Zigbee Home Automation)** integration enabled
-- Both the Hue Tap Dial and LED lights must be paired to your ZHA network
+- Both the Hue Tap Dial and LED lights must be paired to your ZHA network directly.  I don't think this works if either light or the tap dial switch are paired to the Hue bridge
 
 ### Helper Entities
-You must create 5 helper entities before using this blueprint:
+You must create 5 helper entities before using this blueprint: (See step 2 below)
 
 1. **One Dropdown Helper** (shared mode selector)
 2. **Four Number Helpers** (individual hue values for each button)
